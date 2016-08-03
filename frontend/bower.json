@@ -1,0 +1,14 @@
+{
+  "name": "angular-context-menu-example",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "https://github.com/dcr30/angular-context-menu-example",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
