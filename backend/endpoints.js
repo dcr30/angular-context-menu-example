@@ -22,7 +22,7 @@ function createRandomUsers(database, count) {
             name,
             email: name + '@example.com',
             group: groups[Math.floor(Math.random() * groups.length)],
-            online: Math.random() > 0.3,
+            online: false,
             avatar100: 'https://api.adorable.io/avatars/100/' + name,
         });
     }
@@ -34,9 +34,18 @@ module.exports = (app, database) => {
 
     // Инициализация коллекции пользователей
     database.collection(USERS_COLLECTION).count((error, count) => {
-        if (!error && count == 0) {
-            createRandomUsers(database, RANDOM_USERS_COUNT);
+        if (!error && count < RANDOM_USERS_COUNT) {
+            createRandomUsers(database, RANDOM_USERS_COUNT - count);
         }
+    });
+
+    // Случайный онлайн статус при каждом запуске
+    database.collection(USERS_COLLECTION).find({}).forEach((document) => {
+        database.collection(USERS_COLLECTION).update({_id: document._id}, {
+            $set: {
+                online: Math.random() > 0.3
+            }
+        });
     });
     
     // Получение списка всех пользователей
@@ -45,7 +54,7 @@ module.exports = (app, database) => {
             if (error) {
                 handleError(res, 'Failed do get users', error.message);
             } else {
-                res.status(200).json(documents);
+                res.status(200).json({users: documents});
             }
         });
     });
@@ -72,13 +81,25 @@ module.exports = (app, database) => {
     // Обновление профиля пользователя
     app.put('/users/:id', (req, res) => {
         let updatedUser = req.body;
-        let userId = new mongodb.ObjectID(updatedUser._id);
+        let userId = new mongodb.ObjectID(req.params.id);
         delete updatedUser._id;
 
-        database.collection(USERS_COLLECTION).updateOne({_id: userId}, (error) => {
+        database.collection(USERS_COLLECTION).updateOne({_id: userId}, { $set: updatedUser }, (error) => {
             if (error) {
                 handleError(res, 'Failed to update user', error.message);
             } else {
+                res.status(204).end();
+            }
+        });
+    });
+
+    // Удаление пользователя
+    app.delete('/users/:id', (req, res) => {
+        database.collection(USERS_COLLECTION).deleteOne({_id: new mongodb.ObjectID(req.params.id)}, (error) => {
+            if (error) {
+                handleError(res, 'Failed to delete user', error.message);
+            } else {
+                console.log('Deleted user', req.params.id);
                 res.status(204).end();
             }
         });

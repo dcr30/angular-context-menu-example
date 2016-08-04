@@ -1,0 +1,32 @@
+<div class="well" ng-controller="UserItemController" context-menu="contextMenu">
+    <div class="media">
+        <div class="media-left">
+            <img class="media-object img-circle" ng-src="{{user.avatar100}}">
+        </div>
+        <div class="media-body">
+            <h3 class="media-heading">
+                {{user.name}} <span class="label label-{{onlineLabel.class}}">{{onlineLabel.text}}</span>
+            </h3>
+            <p>
+                <span class="label label-{{groupLabel.class}}">{{groupLabel.text}}</span>    
+            </p>
+            <p><b>E-mail:</b> <a ng-href="mailto:{{user.email}}" ng-bind="user.email"></a></p>
+        </div>
+        <div class="media-right">
+            <div class="btn-group-vertical">
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
+                    Show profile
+                </button>
+                <button class="btn btn-default disabled">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 
+                    Add to friends
+                </button>
+                <button class="btn btn-default disabled">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> 
+                    Send message
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,16 @@
     "tests"
   ],
   "dependencies": {
-    "angular-bootstrap-context-menu": "^0.0.1"
+    "angular-bootstrap-context-menu": "^0.0.1",
+    "angular-resource": "^1.5.8"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.min.css*",
+        "dist/fonts/*",
+        "dist/js/*"
+      ]
+    }
   }
 }
