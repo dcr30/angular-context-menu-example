@@ -13,7 +13,7 @@ angular.module('app')
         }
 
         let defaultContextMenu = [
-            {text: 'Show profile'},
+            {text: 'Show profile', click: () => alert($scope.user.name)},
             {text: 'Add to friends', enabled: false},
             {text: 'Send message', enabled: false},
             {text: 'Manage', submenu: [
@@ -23,8 +23,8 @@ angular.module('app')
                     {text: 'Remove rights', enabled: 'user.group !== "everyone"', click: 'setUserGroup(user._id, "everyone")'}
                 ]},
                 {text: 'Edit profile', enabled: 'user.group !== "admin"', submenu: [
-                    {text: 'Edit name'},
-                    {text: 'Edit email'}
+                    {text: 'Edit name', click: () => alert('TODO EDIT: ' + $scope.user.name)},
+                    {text: 'Edit email', click: () => alert('TODO EDIT: ' + $scope.user.email)}
                 ]},
                 {text: 'Remove user', enabled: 'user.group == "everyone"', click: () => $scope.removeUser($scope.user._id)}
             ]},
